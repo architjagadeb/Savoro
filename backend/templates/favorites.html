@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block title %}Favorites – Savoro{% endblock %}
+{% block content %}
+    <div id="barba-wrapper" data-barba="wrapper">
+      <div class="barba-container" data-barba="container" data-barba-namespace="favorites">
+    <main>
+      <section class="page-hero">
+        <div class="container hero-inner small">
+          <div class="hero-text">
+            <h1 class="hero-title">Your Favorites</h1>
+            <p class="hero-subtext">All your saved meals in one place</p>
+          </div>
+          <div class="hero-illustration" aria-hidden="true">
+            <svg class="hero-svg" viewBox="0 0 560 260" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Favorites illustration">
+              <rect x="0" y="0" width="560" height="260" rx="20" fill="#FFEAEF" />
+              <g transform="translate(210,70)">
+                <path d="M70 120s-45-30-62-52C-6 44 5 10 35 10c14 0 22 8 27 16 5-8 13-16 27-16 30 0 41 34 27 58-17 22-62 52-62 52Z" fill="#E05263" />
+              </g>
+            </svg>
+          </div>
+        </div>
+      </section>
+
+      <section class="favorites-controls">
+        <div class="container">
+          <div class="sort-bar card">
+            <div class="sort-grid">
+              <div class="filter-group">
+                <label for="fav-sort">Sort by</label>
+                <select id="fav-sort">
+                  <option value="time-asc">Cooking Time (asc)</option>
+                  <option value="time-desc">Cooking Time (desc)</option>
+                  <option value="title-asc">Title (A→Z)</option>
+                  <option value="title-desc">Title (Z→A)</option>
+                </select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="results">
+        <div class="container">
+          <div id="favorites-empty" class="empty-state" hidden>
+            <div class="empty-illustration" aria-hidden="true">💛</div>
+            <h2>You haven’t added any favorites yet.</h2>
+            <p>Save meals you love and they’ll appear here.</p>
+            <a href="recipes.html" class="btn btn-primary">Explore Recipes</a>
+          </div>
+          <div id="favorites-grid" class="results-grid"></div>
+        </div>
+      </section>
+    </main>
+
+    <div id="favorites-modal" class="modal" aria-hidden="true" aria-labelledby="favorites-modal-title" role="dialog">
+      <div class="modal-backdrop" data-close></div>
+      <div class="modal-content" role="document">
+        <button class="modal-close icon-btn" data-close aria-label="Close">✕</button>
+        <div class="modal-body">
+          <h3 id="favorites-modal-title">Recipe</h3>
+          <p class="modal-meta"></p>
+          <h4>Ingredients</h4>
+          <ul class="modal-ingredients"></ul>
+          <h4>Instructions</h4>
+          <ol class="modal-steps"></ol>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+
+

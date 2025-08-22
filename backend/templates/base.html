@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Savoro{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  </head>
+  <body>
+    <header class="navbar" role="navigation" aria-label="Primary Navigation">
+      <div class="container nav-inner">
+        <a href="{{ url_for('home') }}" class="logo" aria-label="Savoro home">Savoro</a>
+        <nav class="nav" id="primary-nav" aria-label="Main menu">
+          <ul class="nav-links">
+            <li><a href="{{ url_for('home') }}">Home</a></li>
+            <li><a href="{{ url_for('meal_planner') }}">Meal Planner</a></li>
+            <li><a href="{{ url_for('recipes') }}">Recipes</a></li>
+            <li><a href="{{ url_for('favorites') }}">Favorites</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+            <li><a href="{{ url_for('pricing') }}">Pricing</a></li>
+          </ul>
+        </nav>
+        <div class="nav-actions">
+          <!-- Search Bar -->
+        <form class="nav-search" action="{{ url_for('recipes') }}" method="get" role="search">
+          <input type="text" name="q" placeholder="Search recipes" aria-label="Search recipes" />
+        </form>
+
+          <!-- User Icon -->
+          <a href="{{ url_for('login') }}" class="nav-user" aria-label="Login">
+            👤
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <div class="container" style="padding-top: 12px;">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-container">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="footer">
+      <div class="container footer-wrap">
+        <div class="footer-left">© 2025 Savoro</div>
+        <div class="footer-center">
+          <div class="socials" aria-label="Social links">
+            <a class="social-link" href="#" aria-label="X">X</a>
+            <a class="social-link" href="#" aria-label="GitHub">GitHub</a>
+          </div>
+        </div>
+        <div class="footer-right">
+          <a href="#" class="top-btn" aria-label="Back to top">Back to Top</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+    <script src="{{ url_for('static', filename='js/gsap-animations.js') }}"></script>
+    <script src="https://unpkg.com/@barba/core"></script>
+    <script src="https://unpkg.com/@barba/prefetch"></script>
+    <script src="{{ url_for('static', filename='js/barba-init.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>

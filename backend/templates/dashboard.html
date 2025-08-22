@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard – Savoro{% endblock %}
+
+{% block content %}
+<section class="dashboard-section">
+  <div class="container">
+
+    <!-- Hero / Greeting -->
+    <div class="dashboard-hero">
+      <h1>Hi, {{ current_user.username }}! 🍳</h1>
+      <p>Your weekly overview is ready. Plan meals, track favorites, and discover new recipes!</p>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <a href="{{ url_for('meal_planner') }}" class="btn-primary">+ Add Meal</a>
+      <a href="{{ url_for('recipes') }}" class="btn-primary">+ Add Recipe</a>
+    </div>
+
+    <!-- KPI / Stats Cards -->
+    <div class="dashboard-stats">
+      <div class="stat-card">
+        <div class="stat-icon">📖</div>
+        <div class="stat-info">
+          <h3>{{ current_user.recipes_count if current_user.recipes_count else 0 }}</h3>
+          <p>Recipes Saved</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+          <h3>{{ current_user.meals_count if current_user.meals_count else 0 }}</h3>
+          <p>Meals Planned</p>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">❤️</div>
+        <div class="stat-info">
+          <h3>{{ current_user.favorites_count if current_user.favorites_count else 0 }}</h3>
+          <p>Favorites</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weekly Meals Chart -->
+    <div class="dashboard-chart">
+      <h2>Meals This Week</h2>
+      <canvas id="weeklyMealsChart"></canvas>
+    </div>
+
+    <!-- Action Cards -->
+    <div class="dashboard-cards">
+      <a href="{{ url_for('meal_planner') }}" class="card">
+        <div class="card-icon">🍲</div>
+        <h3>Meal Planner</h3>
+        <p>Organize your weekly meals quickly.</p>
+      </a>
+
+      <a href="{{ url_for('recipes') }}" class="card">
+        <div class="card-icon">📖</div>
+        <h3>Recipes</h3>
+        <p>Browse and discover new recipes.</p>
+      </a>
+
+      <a href="{{ url_for('favorites') }}" class="card">
+        <div class="card-icon">❤️</div>
+        <h3>Favorites</h3>
+        <p>Access your saved recipes instantly.</p>
+      </a>
+    </div>
+
+    <!-- Recent Activity -->
+<div class="recent-activity">
+  <h2>Recent Activity</h2>
+  <ul>
+    {% for meal in recent_meals %}
+      <li>
+        <a href="{{ url_for('meal_planner') }}">{{ meal.name }}</a> - {{ meal.date }}
+      </li>
+    {% else %}
+      <li>No recent activity yet.</li>
+    {% endfor %}
+  </ul>
+</div>
+
+
+    <!-- Recommendations -->
+<div class="recommendations">
+  <h2>Recommended for You</h2>
+  <div class="recommendation-cards">
+    {% for recipe in recommended_recipes %}
+      <a href="{{ url_for('recipes') }}" class="card">
+        <div class="card-icon">📖</div>
+        <h3>{{ recipe.name }}</h3>
+      </a>
+    {% else %}
+      <p>No recommendations yet. Explore recipes to get personalized suggestions!</p>
+    {% endfor %}
+  </div>
+</div>
+
+
+    <!-- Logout Button -->
+    <div class="dashboard-logout">
+      <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- Inline CSS for simplicity -->
+<style>
+.dashboard-section {
+  padding: 50px 20px;
+  min-height: 95vh;
+  background: linear-gradient(135deg, #fff7e6, #ffe8d6);
+  text-align: center;
+}
+
+.dashboard-hero h1 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.dashboard-hero p {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.quick-actions {
+  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #f44336, #ff7961);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-weight: bold;
+  text-decoration: none;
+  transition: transform 0.2s, background 0.2s;
+}
+
+.btn-primary:hover {
+  transform: scale(1.05);
+}
+
+/* KPI / Stats Cards */
+.dashboard-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-bottom: 50px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px 20px;
+  width: 200px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.15);
+}
+
+.stat-icon {
+  font-size: 2.5rem;
+  background: #ffd6a5;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.stat-info h3 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: #333;
+}
+
+.stat-info p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+/* Chart */
+.dashboard-chart {
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Action Cards */
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  justify-items: center;
+  margin-bottom: 50px;
+}
+
+.card {
+  background: #fff;
+  border-radius: 15px;
+  padding: 25px 20px;
+  text-decoration: none;
+  color: #333;
+  width: 100%;
+  max-width: 250px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.03);
+  box-shadow: 0 16px 30px rgba(0,0,0,0.12);
+}
+
+.card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  display: inline-block;
+  background: #ffd6a5;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+/* Recent Activity & Recommendations */
+.recent-activity, .recommendations {
+  margin-bottom: 40px;
+}
+
+.recent-activity h2, .recommendations h2 {
+  color: #333;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+}
+
+.recent-activity ul {
+  list-style: none;
+  padding: 0;
+}
+
+.recent-activity li {
+  margin-bottom: 10px;
+  font-size: 0.95rem;
+}
+
+.recent-activity a {
+  color: #f44336;
+  text-decoration: none;
+}
+
+.recent-activity a:hover {
+  text-decoration: underline;
+}
+
+.recommendation-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 15px;
+  justify-items: center;
+}
+
+/* Logout */
+.dashboard-logout {
+  margin-top: 20px;
+}
+
+.logout-btn {
+  text-decoration: none;
+  color: #fff;
+  background: linear-gradient(135deg, #f44336, #ff7961);
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-weight: bold;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.logout-btn:hover {
+  transform: scale(1.05);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .dashboard-stats {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+@media (max-width: 500px) {
+  .dashboard-hero h1 {
+    font-size: 2rem;
+  }
+  .dashboard-hero p {
+    font-size: 1rem;
+  }
+}
+</style>
+
+<!-- Chart.js Script -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const ctx = document.getElementById('weeklyMealsChart').getContext('2d');
+const weeklyMealsChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
+        datasets: [{
+            label: 'Meals Planned',
+            data: [2,3,1,4,3,2,0], // replace with dynamic backend data
+            backgroundColor: 'rgba(255, 99, 132, 0.7)',
+            borderRadius: 5
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, stepSize: 1 } }
+    }
+});
+</script>
+
+{% endblock %}

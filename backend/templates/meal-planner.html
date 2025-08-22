@@ -1,0 +1,1100 @@
+{% extends 'base.html' %}
+{% block title %}Meal Planner – Savoro{% endblock %}
+{% block content %}
+    <div id="barba-wrapper" data-barba="wrapper">
+      <div class="barba-container" data-barba="container" data-barba-namespace="planner">
+    <main>
+      <!-- Hero Section with Weekly Calendar -->
+      <section class="page-hero">
+        <div class="container hero-inner small">
+          <div class="hero-text">
+            <h1 class="hero-title">Plan Your Meals</h1>
+            <p class="hero-subtext">Get personalized meal suggestions for your coding days.</p>
+          </div>
+          <div class="hero-illustration" aria-hidden="true">
+            <!-- Live Weekly Calendar -->
+            <div class="live-weekly-calendar">
+              <div class="calendar-header">
+                <h3 id="current-month-year">August 2025</h3>
+              </div>
+              <div class="calendar-week" id="calendar-week">
+                <!-- Days will be populated by JavaScript -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Meal Preferences Form -->
+      <section class="planner-form">
+        <div class="container">
+          <form id="preferences-form" class="card form-card" novalidate>
+            <h2 class="form-title">Meal Preferences</h2>
+            <div class="form-grid">
+              <div class="input-group">
+                <label for="diet">Diet Type</label>
+                <select id="diet" name="diet" class="form-select">
+                  <option value="any">Any</option>
+                  <option value="vegetarian">Vegetarian</option>
+                  <option value="vegan">Vegan</option>
+                  <option value="non-vegetarian">Non-Vegetarian</option>
+                  <option value="keto">Keto</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="cuisine">Cuisine</label>
+                <select id="cuisine" name="cuisine" class="form-select">
+                  <option value="any">Any</option>
+                  <option value="indian">Indian</option>
+                  <option value="italian">Italian</option>
+                  <option value="chinese">Chinese</option>
+                  <option value="american">American</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label for="time">Time Available</label>
+                <select id="time" name="time" class="form-select">
+                  <option value="any">Any</option>
+                  <option value="10">10 min</option>
+                  <option value="30">30 min</option>
+                  <option value="60">60 min</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label>Filters</label>
+                <div class="chips">
+                  <label class="chip">
+                    <input type="checkbox" name="filter" value="brain-food" />
+                    <span>Brain Food</span>
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="filter" value="high-protein" />
+                    <span>High Protein</span>
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="filter" value="low-carb" />
+                    <span>Low Carb</span>
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="filter" value="quick" />
+                    <span>Quick</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-actions">
+              <button type="submit" class="btn btn-primary">Get Meal Suggestions</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <!-- Meal Suggestions Section -->
+      <section class="meal-suggestions">
+        <div class="container">
+          <h2 class="section-title">Meal Suggestions</h2>
+          <div id="suggestions-grid" class="suggestions-grid">
+            <!-- Meal cards will be populated dynamically -->
+            <div class="meal-card" data-meal-id="1">
+              <div class="meal-image">
+                <img src="https://via.placeholder.com/300x200/FFE9CC/333?text=Oatmeal+Bowl" alt="Oatmeal Bowl" />
+                <div class="meal-time">10 min</div>
+              </div>
+              <div class="meal-content">
+                <h3 class="meal-name">Oatmeal Bowl</h3>
+                <p class="meal-description">Nutritious breakfast with fruits and nuts</p>
+                <div class="meal-tags">
+                  <span class="tag brain-food">Brain Food</span>
+                  <span class="tag quick">Quick</span>
+                </div>
+                <div class="meal-actions">
+                  <button class="btn btn-ghost view-recipe" data-meal-id="1">View Recipe</button>
+                  <button class="btn btn-primary add-to-planner" data-meal-id="1">Add to Planner</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="meal-card" data-meal-id="2">
+              <div class="meal-image">
+                <img src="https://via.placeholder.com/300x200/FFE9CC/333?text=Quinoa+Salad" alt="Quinoa Salad" />
+                <div class="meal-time">15 min</div>
+              </div>
+              <div class="meal-content">
+                <h3 class="meal-name">Quinoa Salad</h3>
+                <p class="meal-description">Protein-rich salad with fresh vegetables</p>
+                <div class="meal-tags">
+                  <span class="tag high-protein">High Protein</span>
+                  <span class="tag vegetarian">Vegetarian</span>
+                </div>
+                <div class="meal-actions">
+                  <button class="btn btn-ghost view-recipe" data-meal-id="2">View Recipe</button>
+                  <button class="btn btn-primary add-to-planner" data-meal-id="2">Add to Planner</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="meal-card" data-meal-id="3">
+              <div class="meal-image">
+                <img src="https://via.placeholder.com/300x200/FFE9CC/333?text=Pasta+Carbonara" alt="Pasta Carbonara" />
+                <div class="meal-time">25 min</div>
+              </div>
+              <div class="meal-content">
+                <h3 class="meal-name">Pasta Carbonara</h3>
+                <p class="meal-description">Classic Italian pasta with creamy sauce</p>
+                <div class="meal-tags">
+                  <span class="tag italian">Italian</span>
+                  <span class="tag high-protein">High Protein</span>
+                </div>
+                <div class="meal-actions">
+                  <button class="btn btn-ghost view-recipe" data-meal-id="3">View Recipe</button>
+                  <button class="btn btn-primary add-to-planner" data-meal-id="3">Add to Planner</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Planned Meals Section -->
+      <section class="planned-meals">
+        <div class="container">
+          <h2 class="section-title">Your Weekly Plan</h2>
+          <div class="weekly-planner">
+            <div class="planner-header">
+              <div class="meal-type-label">Breakfast</div>
+              <div class="meal-type-label">Lunch</div>
+              <div class="meal-type-label">Dinner</div>
+            </div>
+            <div class="planner-grid" id="planner-grid">
+              <!-- Monday -->
+              <div class="day-column" data-day="monday">
+                <div class="day-header">Monday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="monday">
+                  <div class="meal-item" data-meal-id="1" draggable="true">
+                    <span class="meal-name">Oatmeal Bowl</span>
+                    <div class="meal-actions">
+                      <button class="btn-edit" title="Edit">✏️</button>
+                      <button class="btn-delete" title="Delete">🗑️</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="monday">
+                  <div class="meal-item" data-meal-id="2" draggable="true">
+                    <span class="meal-name">Quinoa Salad</span>
+                    <div class="meal-actions">
+                      <button class="btn-edit" title="Edit">✏️</button>
+                      <button class="btn-delete" title="Delete">🗑️</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="monday">
+                  <div class="meal-item" data-meal-id="3" draggable="true">
+                    <span class="meal-name">Pasta Carbonara</span>
+                    <div class="meal-actions">
+                      <button class="btn-edit" title="Edit">✏️</button>
+                      <button class="btn-delete" title="Delete">🗑️</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Tuesday -->
+              <div class="day-column" data-day="tuesday">
+                <div class="day-header">Tuesday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="tuesday"></div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="tuesday"></div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="tuesday"></div>
+              </div>
+
+              <!-- Wednesday -->
+              <div class="day-column" data-day="wednesday">
+                <div class="day-header">Wednesday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="wednesday"></div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="wednesday"></div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="wednesday"></div>
+              </div>
+
+              <!-- Thursday -->
+              <div class="day-column" data-day="thursday">
+                <div class="day-header">Thursday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="thursday"></div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="thursday"></div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="thursday"></div>
+              </div>
+
+              <!-- Friday -->
+              <div class="day-column" data-day="friday">
+                <div class="day-header">Friday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="friday"></div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="friday"></div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="friday"></div>
+              </div>
+
+              <!-- Saturday -->
+              <div class="day-column" data-day="saturday">
+                <div class="day-header">Saturday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="saturday"></div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="saturday"></div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="saturday"></div>
+              </div>
+
+              <!-- Sunday -->
+              <div class="day-column" data-day="sunday">
+                <div class="day-header">Sunday</div>
+                <div class="meal-slot breakfast" data-meal-type="breakfast" data-day="sunday"></div>
+                <div class="meal-slot lunch" data-meal-type="lunch" data-day="sunday"></div>
+                <div class="meal-slot dinner" data-meal-type="dinner" data-day="sunday"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Floating Favorites Button -->
+    <a class="fab" href="{{ url_for('favorites') }}" aria-label="Go to favorites">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M12 21s-6.5-4.35-9-7.5C1 10 2.5 6 6 6c2.04 0 3.22 1.2 3.92 2.32.7-1.12 1.88-2.32 3.92-2.32 3.5 0 5 4 3 7.5-2.5 3.15-9 7.5-9 7.5Z" stroke="currentColor" stroke-width="2" fill="currentColor" />
+      </svg>
+    </a>
+
+    <!-- Recipe Modal -->
+    <div id="recipe-modal" class="modal" aria-hidden="true" aria-labelledby="modal-title" role="dialog">
+      <div class="modal-backdrop" data-close></div>
+      <div class="modal-content" role="document">
+        <button class="modal-close icon-btn" data-close aria-label="Close">✕</button>
+        <div class="modal-body">
+          <h3 id="modal-title">Recipe</h3>
+          <p class="modal-meta"></p>
+          <h4>Ingredients</h4>
+          <ul class="modal-ingredients"></ul>
+          <h4>Instructions</h4>
+          <ol class="modal-steps"></ol>
+        </div>
+      </div>
+    </div>
+
+      </div>
+    </div>
+
+    <!-- Meal Planner Styles -->
+    <style>
+      /* Live Weekly Calendar */
+      .live-weekly-calendar {
+        background: linear-gradient(135deg, #E6F6F2, #D4F1E8);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        max-width: 600px;
+        margin: 0 auto;
+        font-family: 'Poppins', sans-serif;
+      }
+
+      .calendar-header h3 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #2a5b4e;
+        font-size: 1.4rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .calendar-week {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 12px;
+      }
+
+      .calendar-day {
+        text-align: center;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 15px;
+        padding: 15px 8px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        border: 2px solid transparent;
+      }
+
+      .calendar-day:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        border-color: rgba(42, 91, 78, 0.2);
+      }
+
+      .calendar-day.today {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+        border-color: #4CAF50;
+        transform: scale(1.05);
+      }
+
+      .calendar-day.today .day-name,
+      .calendar-day.today .day-date {
+        color: white;
+      }
+
+      .day-name {
+        font-weight: 600;
+        color: #2a5b4e;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .day-date {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #333;
+        line-height: 1;
+      }
+
+      .calendar-day.today .day-date {
+        color: white;
+      }
+
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .live-weekly-calendar {
+          padding: 20px;
+          margin: 0 15px;
+        }
+        
+        .calendar-week {
+          gap: 8px;
+        }
+        
+        .calendar-day {
+          padding: 12px 6px;
+        }
+        
+        .day-name {
+          font-size: 0.8rem;
+        }
+        
+        .day-date {
+          font-size: 1rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .live-weekly-calendar {
+          padding: 15px;
+        }
+        
+        .calendar-week {
+          gap: 6px;
+        }
+        
+        .calendar-day {
+          padding: 10px 4px;
+        }
+        
+        .day-name {
+          font-size: 0.75rem;
+        }
+        
+        .day-date {
+          font-size: 0.9rem;
+        }
+      }
+
+      /* Meal Preferences Form */
+      .planner-form {
+        padding: 60px 0;
+        background: #000000;
+      }
+
+      .form-card {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 40px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      }
+
+      .form-title {
+        text-align: center;
+        margin-bottom: 30px;
+        color: #2a5b4e;
+        font-size: 1.8rem;
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+      }
+
+      .input-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+      }
+
+      .form-select {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e1e5e9;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: border-color 0.2s;
+      }
+
+      .form-select:focus {
+        outline: none;
+        border-color: #4CAF50;
+      }
+
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        background: #f8f9fa;
+        border: 2px solid #e1e5e9;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .chip:hover {
+        background: #e9ecef;
+        border-color: #4CAF50;
+      }
+
+      .chip input[type="checkbox"] {
+        display: none;
+      }
+
+      .chip input[type="checkbox"]:checked + span {
+        color: #4CAF50;
+        font-weight: 600;
+      }
+
+      .form-actions {
+        text-align: center;
+      }
+
+      /* Meal Suggestions */
+      .meal-suggestions {
+        padding: 60px 0;
+      }
+
+      .suggestions-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-top: 40px;
+      }
+
+      .meal-card {
+        background: white;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+
+      .meal-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+      }
+
+      .meal-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+      }
+
+      .meal-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .meal-time {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .meal-content {
+        padding: 25px;
+      }
+
+      .meal-name {
+        margin: 0 0 10px 0;
+        color: #2a5b4e;
+        font-size: 1.3rem;
+      }
+
+      .meal-description {
+        color: #666;
+        margin-bottom: 15px;
+        line-height: 1.5;
+      }
+
+      .meal-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+
+      .tag {
+        padding: 4px 12px;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        font-weight: 500;
+      }
+
+      .tag.brain-food {
+        background: #E3F2FD;
+        color: #1976D2;
+      }
+
+      .tag.high-protein {
+        background: #E8F5E8;
+        color: #388E3C;
+      }
+
+      .tag.low-carb {
+        background: #FFF3E0;
+        color: #F57C00;
+      }
+
+      .tag.quick {
+        background: #F3E5F5;
+        color: #7B1FA2;
+      }
+
+      .tag.vegetarian {
+        background: #E8F5E8;
+        color: #388E3C;
+      }
+
+      .tag.italian {
+        background: #FFEBEE;
+        color: #D32F2F;
+      }
+
+      .meal-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 25px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-decoration: none;
+        display: inline-block;
+        text-align: center;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #4CAF50, #45a049);
+        color: white;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: #4CAF50;
+        border: 2px solid #4CAF50;
+      }
+
+      .btn-ghost:hover {
+        background: #4CAF50;
+        color: white;
+      }
+
+      /* Planned Meals Section */
+      .planned-meals {
+        padding: 60px 0;
+        background: #000000;
+      }
+
+      .weekly-planner {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        overflow-x: auto;
+      }
+
+      .planner-header {
+        display: grid;
+        grid-template-columns: 1fr repeat(7, 1fr);
+        gap: 15px;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #2a5b4e;
+      }
+
+      .meal-type-label {
+        text-align: center;
+        padding: 10px;
+        background: #f8f9fa;
+        border-radius: 10px;
+      }
+
+      .planner-grid {
+        display: grid;
+        grid-template-columns: 1fr repeat(7, 1fr);
+        gap: 15px;
+      }
+
+      .day-column {
+        text-align: center;
+      }
+
+      .day-header {
+        font-weight: 600;
+        color: #2a5b4e;
+        padding: 15px 10px;
+        background: #f8f9fa;
+        border-radius: 10px;
+        margin-bottom: 15px;
+      }
+
+      .meal-slot {
+        min-height: 80px;
+        border: 2px dashed #e1e5e9;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s;
+        position: relative;
+      }
+
+      .meal-slot.breakfast {
+        border-color: #FFE9CC;
+        background: #FFF8F0;
+      }
+
+      .meal-slot.lunch {
+        border-color: #FFD6A5;
+        background: #FFF4F0;
+      }
+
+      .meal-slot.dinner {
+        border-color: #FFB3BA;
+        background: #FFF0F0;
+      }
+
+      .meal-slot.drag-over {
+        border-color: #4CAF50;
+        background: #E8F5E8;
+        transform: scale(1.02);
+      }
+
+      .meal-item {
+        background: white;
+        padding: 12px 16px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        cursor: move;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        transition: all 0.2s;
+      }
+
+      .meal-item:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      }
+
+      .meal-name {
+        font-weight: 500;
+        color: #333;
+        flex: 1;
+      }
+
+      .meal-actions {
+        display: flex;
+        gap: 5px;
+      }
+
+      .btn-edit, .btn-delete {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 4px;
+        border-radius: 4px;
+        transition: background 0.2s;
+      }
+
+      .btn-edit:hover {
+        background: #E3F2FD;
+      }
+
+      .btn-delete:hover {
+        background: #FFEBEE;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .calendar-grid {
+          grid-template-columns: repeat(4, 1fr);
+        }
+
+        .form-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .suggestions-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .planner-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .planner-header {
+          grid-template-columns: 1fr;
+        }
+
+        .weekly-planner {
+          padding: 20px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .calendar-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .meal-actions {
+          flex-direction: column;
+        }
+
+        .form-card {
+          padding: 25px;
+        }
+      }
+
+      /* Drag and Drop Styles */
+      .meal-item.dragging {
+        opacity: 0.5;
+        transform: rotate(5deg);
+      }
+
+      .meal-slot.drag-over {
+        border-color: #4CAF50;
+        background: #E8F5E8;
+        transform: scale(1.02);
+      }
+    </style>
+
+    <!-- Meal Planner JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Initialize live calendar
+        initLiveCalendar();
+        
+        // Initialize drag and drop functionality
+        initDragAndDrop();
+        
+        // Initialize meal card interactions
+        initMealCards();
+        
+        // Initialize form submission
+        initFormSubmission();
+      });
+
+      function initLiveCalendar() {
+        const calendarWeek = document.getElementById('calendar-week');
+        const monthYearElement = document.getElementById('current-month-year');
+        
+        if (!calendarWeek || !monthYearElement) return;
+        
+        // Get current date and start of week (Monday)
+        const today = new Date();
+        const currentDay = today.getDay(); // 0 = Sunday, 1 = Monday, etc.
+        const daysFromMonday = currentDay === 0 ? 6 : currentDay - 1; // Adjust for Sunday
+        const monday = new Date(today);
+        monday.setDate(today.getDate() - daysFromMonday);
+        
+        // Update month and year
+        const monthNames = [
+          'January', 'February', 'March', 'April', 'May', 'June',
+          'July', 'August', 'September', 'October', 'November', 'December'
+        ];
+        monthYearElement.textContent = `${monthNames[monday.getMonth()]} ${monday.getFullYear()}`;
+        
+        // Generate week days
+        const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        calendarWeek.innerHTML = '';
+        
+        for (let i = 0; i < 7; i++) {
+          const currentDate = new Date(monday);
+          currentDate.setDate(monday.getDate() + i);
+          
+          const dayElement = document.createElement('div');
+          dayElement.className = 'calendar-day';
+          
+          // Check if this is today
+          if (currentDate.toDateString() === today.toDateString()) {
+            dayElement.classList.add('today');
+          }
+          
+          dayElement.innerHTML = `
+            <div class="day-name">${weekDays[i]}</div>
+            <div class="day-date">${currentDate.getDate()}</div>
+          `;
+          
+          calendarWeek.appendChild(dayElement);
+        }
+      }
+
+      function initDragAndDrop() {
+        const mealItems = document.querySelectorAll('.meal-item');
+        const mealSlots = document.querySelectorAll('.meal-slot');
+
+        mealItems.forEach(item => {
+          item.addEventListener('dragstart', handleDragStart);
+          item.addEventListener('dragend', handleDragEnd);
+        });
+
+        mealSlots.forEach(slot => {
+          slot.addEventListener('dragover', handleDragOver);
+          slot.addEventListener('drop', handleDrop);
+          slot.addEventListener('dragenter', handleDragEnter);
+          slot.addEventListener('dragleave', handleDragLeave);
+        });
+      }
+
+      function handleDragStart(e) {
+        e.target.classList.add('dragging');
+        e.dataTransfer.setData('text/plain', e.target.dataset.mealId);
+      }
+
+      function handleDragEnd(e) {
+        e.target.classList.remove('dragging');
+      }
+
+      function handleDragOver(e) {
+        e.preventDefault();
+      }
+
+      function handleDragEnter(e) {
+        e.preventDefault();
+        e.target.classList.add('drag-over');
+      }
+
+      function handleDragLeave(e) {
+        e.target.classList.remove('drag-over');
+      }
+
+      function handleDrop(e) {
+        e.preventDefault();
+        e.target.classList.remove('drag-over');
+        
+        const mealId = e.dataTransfer.getData('text/plain');
+        const mealItem = document.querySelector(`[data-meal-id="${mealId}"]`);
+        
+        if (mealItem && e.target.classList.contains('meal-slot')) {
+          // Clone the meal item and add it to the new slot
+          const clonedMeal = mealItem.cloneNode(true);
+          clonedMeal.dataset.mealId = Date.now(); // Give it a unique ID
+          
+          // Remove the original meal item
+          mealItem.remove();
+          
+          // Add the cloned meal to the new slot
+          e.target.appendChild(clonedMeal);
+          
+          // Reinitialize drag and drop for the new item
+          initDragAndDrop();
+          
+          // Show success message
+          showNotification('Meal moved successfully!', 'success');
+        }
+      }
+
+      function initMealCards() {
+        // View Recipe buttons
+        document.querySelectorAll('.view-recipe').forEach(button => {
+          button.addEventListener('click', function() {
+            const mealId = this.dataset.mealId;
+            openRecipeModal(mealId);
+          });
+        });
+
+        // Add to Planner buttons
+        document.querySelectorAll('.add-to-planner').forEach(button => {
+          button.addEventListener('click', function() {
+            const mealId = this.dataset.mealId;
+            addMealToPlanner(mealId);
+          });
+        });
+      }
+
+      function openRecipeModal(mealId) {
+        // This would typically fetch recipe data from the backend
+        const modal = document.getElementById('recipe-modal');
+        const title = modal.querySelector('#modal-title');
+        const meta = modal.querySelector('.modal-meta');
+        const ingredients = modal.querySelector('.modal-ingredients');
+        const steps = modal.querySelector('.modal-steps');
+
+        // Sample data - replace with actual API call
+        const recipeData = {
+          1: {
+            name: 'Oatmeal Bowl',
+            time: '10 min',
+            ingredients: ['1 cup rolled oats', '1 cup milk', '1 banana', '2 tbsp honey', '1/4 cup nuts'],
+            steps: ['Cook oats with milk', 'Slice banana', 'Top with honey and nuts']
+          },
+          2: {
+            name: 'Quinoa Salad',
+            time: '15 min',
+            ingredients: ['1 cup quinoa', '2 cups water', '1 cucumber', '1 tomato', 'Olive oil', 'Lemon juice'],
+            steps: ['Cook quinoa', 'Chop vegetables', 'Mix with dressing']
+          },
+          3: {
+            name: 'Pasta Carbonara',
+            time: '25 min',
+            ingredients: ['400g spaghetti', '4 eggs', '100g pancetta', '50g parmesan', 'Black pepper'],
+            steps: ['Cook pasta', 'Fry pancetta', 'Mix eggs and cheese', 'Combine all ingredients']
+          }
+        };
+
+        const recipe = recipeData[mealId];
+        if (recipe) {
+          title.textContent = recipe.name;
+          meta.textContent = `Prep time: ${recipe.time}`;
+          
+          ingredients.innerHTML = recipe.ingredients.map(ing => `<li>${ing}</li>`).join('');
+          steps.innerHTML = recipe.steps.map(step => `<li>${step}</li>`).join('');
+          
+          modal.style.display = 'block';
+        }
+      }
+
+      function addMealToPlanner(mealId) {
+        // This would typically add the meal to the user's planner via API
+        showNotification('Meal added to planner!', 'success');
+        
+        // Find the first empty meal slot and add the meal
+        const emptySlots = document.querySelectorAll('.meal-slot:empty');
+        if (emptySlots.length > 0) {
+          const mealCard = document.querySelector(`[data-meal-id="${mealId}"]`);
+          const mealName = mealCard.querySelector('.meal-name').textContent;
+          
+          const mealItem = document.createElement('div');
+          mealItem.className = 'meal-item';
+          mealItem.dataset.mealId = Date.now();
+          mealItem.draggable = true;
+          mealItem.innerHTML = `
+            <span class="meal-name">${mealName}</span>
+            <div class="meal-actions">
+              <button class="btn-edit" title="Edit">✏️</button>
+              <button class="btn-delete" title="Delete">🗑️</button>
+            </div>
+          `;
+          
+          emptySlots[0].appendChild(mealItem);
+          initDragAndDrop();
+        }
+      }
+
+      function initFormSubmission() {
+        const form = document.getElementById('preferences-form');
+        form.addEventListener('submit', function(e) {
+          e.preventDefault();
+          
+          // Collect form data
+          const formData = new FormData(form);
+          const preferences = Object.fromEntries(formData);
+          
+          // This would typically send data to the backend
+          console.log('Meal preferences:', preferences);
+          showNotification('Preferences updated! Getting new suggestions...', 'success');
+          
+          // Simulate loading new suggestions
+          setTimeout(() => {
+            showNotification('New meal suggestions loaded!', 'success');
+          }, 2000);
+        });
+      }
+
+      function showNotification(message, type) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          padding: 15px 20px;
+          border-radius: 8px;
+          color: white;
+          font-weight: 600;
+          z-index: 10000;
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        `;
+        
+        notification.style.background = type === 'success' ? '#4CAF50' : '#f44336';
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            document.body.removeChild(notification);
+          }, 300);
+        }, 3000);
+      }
+
+      // Close modal functionality
+      document.querySelectorAll('[data-close]').forEach(element => {
+        element.addEventListener('click', function() {
+          document.getElementById('recipe-modal').style.display = 'none';
+        });
+      });
+
+      // Close modal when clicking backdrop
+      document.querySelector('.modal-backdrop').addEventListener('click', function() {
+        document.getElementById('recipe-modal').style.display = 'none';
+      });
+    </script>
+{% endblock %}
+
+

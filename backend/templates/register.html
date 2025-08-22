@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}Register - Savoro{% endblock %}
+{% block content %}
+<div class="auth-container">
+  <div class="auth-card">
+    <h2>Create an Account</h2>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('register') }}">
+      <label>Username</label>
+      <input type="text" name="username" placeholder="Enter username" required autocomplete="username">
+      
+      <label>Email</label>
+      <input type="email" name="email" placeholder="Enter email" required autocomplete="email">
+      
+      <label>Password</label>
+      <input type="password" name="password" placeholder="Enter password" required autocomplete="new-password">
+      
+      <button type="submit">Register</button>
+    </form>
+    <p class="auth-footer">Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+  </div>
+</div>
+{% endblock %}
